@@ -1,0 +1,23 @@
+<template name="appBody">
+	{{> welcome}}
+	{{> originalGame}}
+	{{> infinityGame}}
+	{{> twistGame}}
+	{{> clearGame}}
+	{{> combineGame}}
+	{{> optionPanel}}
+	{{#if currentUser}}
+		{{> highScoresPanel}}
+		{{> originalHighScores}}
+		{{> infinityHighScores}}
+		{{> twistHighScores}}
+		{{> combineHighScores}}
+		{{> clearHighScores}}
+	{{/if}}
+	{{> rulesPanel}}
+	{{> originalRulesPanel}}
+	{{> infinityRulesPanel}}
+	{{> twistRulesPanel}}
+	{{> clearRulesPanel}}
+	{{> combineRulesPanel}}
+</template>
