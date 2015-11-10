@@ -75,8 +75,8 @@
 
 		.options {
 			display: inline-block;
-			height: 40px;
-			width: 40px;
+			height: 50px;
+			width: 50px;
 			position: relative;
 
 			span {
@@ -84,7 +84,7 @@
 				background-color: $color1;
 				border-radius: 2px;
 				height: 4px;
-				width: 100%;
+				width: 40px;
 				position: absolute;
 				left: 10px;
 				top: 10px;

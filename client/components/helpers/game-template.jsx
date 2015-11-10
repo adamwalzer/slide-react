@@ -54,10 +54,6 @@ GameTemplate = function(opts) {
     this.initialize(opts);
   };
 
-  var combineVal = opts.combineVal || function(v) {
-    return 2*v;
-  }
-
   var movedWithoutCombine = opts.movedWithoutCombine || function() {
     return true;
   }
@@ -94,7 +90,7 @@ GameTemplate = function(opts) {
                   moved = movedWithoutCombine();
                 } else {
                   if(getB(this,i+d*k,j).move() != this.move && getB(this,i+d*k,j).val() === getB(this,i+d*k-d,j).val()) {
-                    getB(this,i+d*k,j).val(combineVal(getB(this,i+d*k,j).val()));
+                    getB(this,i+d*k,j).val(this.combineVal(getB(this,i+d*k,j).val()));
                     getB(this,i+d*k,j).move(this.move);
                     getB(this,i+d*k-d,j)['move'+Z](getB(this,i+d*k,j)['get'+Z]()).destroy();
                     if(getB(this,i+d*k,j).val() === " ") setB(this,i+d*k,j,null);
@@ -222,6 +218,9 @@ GameTemplate = function(opts) {
     },
     newZ: opts.newZ || function() {
       return Math.floor(Math.random()*2*.75+1)*2;
+    },
+    combineVal: opts.combineVal || function(v) {
+      return 2*v;
     },
     makeSpaces: opts.makeSpaces || function(b) {
       var spaces = [];

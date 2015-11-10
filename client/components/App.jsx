@@ -15,6 +15,7 @@ App = React.createClass({
         <InfinityGame/>
         <TwistGame/>
         <ClearGame/>
+        <CombineGame/>
         <OptionPanel/>
         <HighScoresPanel/>
         <OriginalHighScores/>
