@@ -4,7 +4,7 @@ App = React.createClass({
     var target = e.target.getAttribute("data-target");
     if(target) {
       document.body.className = target;
-      ga('send', 'click-'+target);
+      ga('send', 'event', target, 'aClick');
     }
   },
   render() {
