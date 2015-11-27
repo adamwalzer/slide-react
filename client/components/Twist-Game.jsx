@@ -66,6 +66,15 @@ var opts = {
 			self.fall(0);
 		}, 100);
 	},
+  componentDidMount: function() {
+    $(document).on('keydown', this.keyAction);
+    this.$el = $('.'+this.t+'-game .board').touchswipe({
+      swipeLeft: this.ccw,
+      swipeRight: this.cw,
+    });
+
+    this.renderGame();
+  },
 	keyAction: function(e) {
 		if($('body').hasClass('twist')) {
 			var code = e.keyCode || e.which;

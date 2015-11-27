@@ -1,5 +1,6 @@
 var opts = {
 	title: "clear",
+	highCopy: "low",
 	gameOver: false,
 	originalB: Array(Array({v:0},{v:0},{v:0},{v:0}),Array({v:0},{v:0},{v:0},{v:0}),Array({v:0},{v:0},{v:0},{v:0}),Array({v:0},{v:0},{v:0},{v:0})),
 	created: function() {

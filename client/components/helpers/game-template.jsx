@@ -56,7 +56,7 @@ GameTemplate = function(opts) {
 
   var movedWithoutCombine = opts.movedWithoutCombine || function() {
     return true;
-  }
+  };
 
   var moveTiles = function(Z,d) {
     var getB, setB;
@@ -135,7 +135,7 @@ GameTemplate = function(opts) {
       if(getVar(this.t+'-high-score')) Session.set(this.t+'-high-score',getVar(this.t+'-high-score'));
       if(!Session.get(this.t+'-high-score')) Session.set(this.t+'-high-score',0);
     },
-    componentDidMount: function() {
+    componentDidMount: opts.componentDidMount || function() {
       $(document).on('keydown', this.keyAction);
       this.$el = $('.'+this.t+'-game .board').touchswipe({
         swipeLeft: this.left,
@@ -292,7 +292,7 @@ GameTemplate = function(opts) {
             d && d.destroy();
           });
         });
-        this.values = originalValues;
+        this.values = this.originalValues;
         this.moving = false;
         this.b = Array(Array(null,null,null,null),Array(null,null,null,null),Array(null,null,null,null),Array(null,null,null,null));
         this.renderGame();
@@ -314,6 +314,7 @@ GameTemplate = function(opts) {
         e.target.className.indexOf('no') > -1 && $('body').removeClass(this.t);
       }
     },
+    highCopy: opts.highCopy || "high",
     render() {
       return (
         <div className={this.t+"-game game"}>
@@ -332,7 +333,7 @@ GameTemplate = function(opts) {
               {this.data.score}
             </span>
             <span>
-              high
+              {this.highCopy}
               {this.data.high}
             </span>
           </div>
