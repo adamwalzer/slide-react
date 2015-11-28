@@ -23,8 +23,8 @@ var opts = {
 	setNewHigh: function(resetBoard,b) {
 		if(resetBoard) {
 			Session.set('clear-score', 0);
-			_.each(b, function(c) {
-				_.each(c, function(d) {
+			loop.each(b, function(c) {
+				loop.each(c, function(d) {
 					d && d.destroy();
 				});
 			});
@@ -36,7 +36,7 @@ var opts = {
 		var self = this;
 		self.updateScore(1);
 		if(moved) {
-			_.delay(function() {
+			setTimeout(function() {
 				self.createPiece();
 			}, 250);
 		}
@@ -51,8 +51,8 @@ var opts = {
 	},
 	makeSpaces: function(b,values,n) {
 		var spaces = [];
-		_.each(b, function(c,i) {
-			_.each(c, function(d,j) {
+		loop.each(b, function(c,i) {
+			loop.each(c, function(d,j) {
 				if(d) {
 					!n && values.push(d.val());
 				} else {

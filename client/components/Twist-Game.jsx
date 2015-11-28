@@ -61,22 +61,23 @@ var opts = {
 			'-ms-transform' : 'translateX(-50%) translateY(-50%) rotate('+ -this.degrees +'deg)',
 			'transform' : 'translateX(-50%) translateY(-50%) rotate('+ -this.degrees +'deg)'
 		});
-		_.delay(function() {
+		setTimeout(function() {
 			self.fall(0);
 			self.fall(0);
 		}, 100);
 	},
   componentDidMount: function() {
-    $(document).on('keydown', this.keyAction);
-    this.$el = $('.'+this.t+'-game .board').touchswipe({
-      swipeLeft: this.ccw,
-      swipeRight: this.cw,
+    document.addEventListener('keydown', this.keyAction);
+    this.$el = $('.'+this.t+'-game .board');
+    swipe.on(document.getElementsByClassName(this.t+'-game')[0].getElementsByClassName("board")[0], {
+      left: this.ccw,
+      right: this.cw
     });
 
     this.renderGame();
   },
 	keyAction: function(e) {
-		if($('body').hasClass('twist')) {
+		if(document.getElementById('body').className.indexOf('twist') > -1) {
 			var code = e.keyCode || e.which;
 			if(code === 37) this.ccw();
 			else if(code === 39) this.cw();
@@ -86,7 +87,7 @@ var opts = {
 		if(create) {
 			var self = this;
 			if(moved) {
-				_.delay(function() {
+				setTimeout(function() {
 					self.createPiece();
 				}, 250);
 			}

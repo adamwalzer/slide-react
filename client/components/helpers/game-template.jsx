@@ -47,7 +47,7 @@ GameTemplate = function(opts) {
     this.destroy = function() {
       var self = this;
       self.$el.addClass('destroying');
-      _.delay(function() {
+      setTimeout(function() {
         self.$el.remove();
       },250);
     };
@@ -136,18 +136,19 @@ GameTemplate = function(opts) {
       if(!Session.get(this.t+'-high-score')) Session.set(this.t+'-high-score',0);
     },
     componentDidMount: opts.componentDidMount || function() {
-      $(document).on('keydown', this.keyAction);
-      this.$el = $('.'+this.t+'-game .board').touchswipe({
-        swipeLeft: this.left,
-        swipeRight: this.right,
-        swipeUp: this.down,
-        swipeDown: this.up
+      document.addEventListener('keydown', this.keyAction);
+      this.$el = $('.'+this.t+'-game .board');
+      swipe.on(document.getElementsByClassName(this.t+'-game')[0].getElementsByClassName("board")[0], {
+        left: this.left,
+        right: this.right,
+        up: this.down,
+        down: this.up
       });
 
       this.renderGame();
     },
     keyAction: opts.keyAction || function(e) {
-      if($('body').hasClass(this.t)) {
+      if(document.getElementById('body').className.indexOf(this.t) > -1) {
         var code = e.keyCode || e.which;
         if(code === 37) this.left();
         else if(code === 38) this.up();
@@ -180,8 +181,8 @@ GameTemplate = function(opts) {
         }
         if(spaces.length === 1) {
           var alive = false;
-          _.each(this.b, function(c,i) {
-            _.each(c, function(d,j) {
+          loop.each(this.b, function(c,i) {
+            loop.each(c, function(d,j) {
               if(d && i != 0) {
                 if(d.val() === self.b[i-1][j].val()) {
                   alive = true;
@@ -224,8 +225,8 @@ GameTemplate = function(opts) {
     },
     makeSpaces: opts.makeSpaces || function(b) {
       var spaces = [];
-      _.each(b, function(c,i) {
-        _.each(c, function(d,j) {
+      loop.each(b, function(c,i) {
+        loop.each(c, function(d,j) {
           if(!d) {
             spaces.push({x:i,y:j});
           }
@@ -242,7 +243,7 @@ GameTemplate = function(opts) {
     afterMove: opts.afterMove || function(moved) {
       var self = this;
       if(moved) {
-        _.delay(function() {
+        setTimeout(function() {
           self.createPiece();
         }, 250);
       }
@@ -274,8 +275,8 @@ GameTemplate = function(opts) {
         }, function() {
           if(resetBoard) {
             Session.set(self.t+'-score', 0);
-            _.each(self.b, function(c) {
-              _.each(c, function(d) {
+            loop.each(self.b, function(c) {
+              loop.each(c, function(d) {
                 d && d.destroy();
               });
             });
@@ -287,8 +288,8 @@ GameTemplate = function(opts) {
         });
       } else if(resetBoard) {
         Session.set(this.t+'-score', 0);
-        _.each(this.b, function(c) {
-          _.each(c, function(d) {
+        loop.each(this.b, function(c) {
+          loop.each(c, function(d) {
             d && d.destroy();
           });
         });
@@ -311,7 +312,7 @@ GameTemplate = function(opts) {
       if(e.target.tagName === "LI") {
         this.setNewHigh(e.target.className.indexOf('yes') > -1,this.b);
         this.$el.parent().removeClass('game-over');
-        e.target.className.indexOf('no') > -1 && $('body').removeClass(this.t);
+        if(e.target.className.indexOf('no') > -1) document.getElementById('body').className = "";
       }
     },
     highCopy: opts.highCopy || "high",

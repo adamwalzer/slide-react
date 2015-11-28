@@ -14,7 +14,7 @@ HighScoreTemplate = function(opts) {
       }
     },
     keyAction(e) {
-      if($('body').hasClass(this.state.t+'-high')) {
+      if(document.getElementById('body').className.indexOf(this.state.t+'-high') > -1) {
         var code = e.keyCode || e.which;
         if(code === 37) this.left();
         else if(code === 39) this.right();
@@ -22,18 +22,20 @@ HighScoreTemplate = function(opts) {
     },
     left() {
       this.state.n = 1 - this.data.list.length;
-      this.state.m = Math.max(this.state.m-1,this.state.n);
-      $('.'+this.state.t+'-high-scores .high-scores').css({'left':(this.state.m*100)+"%"});
+      this.setState({
+        m: Math.max(this.state.m-1,this.state.n)
+      });
     },
     right() {
-      this.state.m = Math.min(this.state.m+1,0);
-      $('.'+this.state.t+'-high-scores .high-scores').css({'left':(this.state.m*100)+"%"});
+      this.setState({
+        m: Math.min(this.state.m+1,0)
+      });
     },
     componentDidMount() {
-      $(document).on('keydown', this.keyAction);
-      $('.'+this.state.t+'-high-scores .high-scores').touchswipe({
-        swipeLeft: this.left,
-        swipeRight: this.right
+      document.addEventListener('keydown', this.keyAction);
+      swipe.on(document.getElementsByClassName(this.state.t+'-high-scores')[0].getElementsByClassName("high-scores")[0], {
+        left: this.left,
+        right: this.right
       });
     },
     render() {
@@ -44,7 +46,7 @@ HighScoreTemplate = function(opts) {
               back to high scores
             </li>
           </ul>
-          <ul className="high-scores">
+          <ul className="high-scores" style={{left: this.state.m*100+"%"}}>
             {this.data.list.map(function(el,k){
               return (
                 <li key={k}>

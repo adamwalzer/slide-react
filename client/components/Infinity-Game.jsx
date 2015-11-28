@@ -3,8 +3,8 @@ var opts = {
 	values: [1],
 	makeSpaces: function(b,values) {
 		var spaces = [];
-		_.each(b, function(c,i) {
-			_.each(c, function(d,j) {
+		loop.each(b, function(c,i) {
+			loop.each(c, function(d,j) {
 				if(d) {
 					values.push(d.val());
 				} else {

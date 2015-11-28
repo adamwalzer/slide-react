@@ -29,9 +29,11 @@
 
 		.board {
 			@include transition(transform $fast);
+			transition: transform .25s;
 
 			> div span {
 				@include transition(transform $fast);
+				transition: transform .25s;
 			}
 		}
 	}

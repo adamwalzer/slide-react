@@ -44,8 +44,8 @@ var opts = {
 				p.val(opts.z);
 				this.b[opts.x][opts.y] = this.makeNewPiece(opts);
 				var spaces = [];
-				_.each(this.b, function(c,i) {
-					_.each(c, function(d,j) {
+				loop.each(this.b, function(c,i) {
+					loop.each(c, function(d,j) {
 						if(!d) {
 							spaces.push({x:i,y:j});
 						}
