@@ -68,7 +68,8 @@ var opts = {
 	},
   componentDidMount: function() {
     document.addEventListener('keydown', this.keyAction);
-    this.$el = $('.'+this.t+'-game .board');
+    this.el = document.getElementsByClassName(this.t+'-game')[0].getElementsByClassName('board')[0];
+    this.$el = $(this.el);
     swipe.on(document.getElementsByClassName(this.t+'-game')[0].getElementsByClassName("board")[0], {
       left: this.ccw,
       right: this.cw

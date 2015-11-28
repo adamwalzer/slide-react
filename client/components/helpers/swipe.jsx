@@ -43,5 +43,9 @@ swipe = {
 
     el.addEventListener('touchstart', handleTouchStart, false);
     el.addEventListener('touchmove', handleTouchMove, false);
+  },
+  off: function(el) {
+    el.removeEventListener('touchstart');
+    el.removeEventListener('touchmove');
   }
 };

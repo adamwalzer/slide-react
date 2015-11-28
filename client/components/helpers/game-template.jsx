@@ -12,16 +12,19 @@ GameTemplate = function(opts) {
       this.render();
     };
     this.render = function() {
-      this.$el = $('<div style="left:'+this.x*this.w+'%; top:'+this.y*this.w+'%;"><span></span></div>');
-      this.$span = this.$el.find('span');
+      this.el = document.createElement('div');
+      this.el.style.left = this.x*this.w+'%';
+      this.el.style.top = this.y*this.w+'%';
+      this.span = document.createElement('span');
+      this.el.appendChild(this.span);
       this.val(this.v);
-      this.p.$el.append(this.$el);
+      this.p.el.appendChild(this.el);
     };
     this.val = function(nv) {
       this.v = nv || this.v;
       if(this.v===" ") this.destroy();
-      this.$el.attr({'data-val':this.v});
-      this.$span.html(this.v);
+      this.el.setAttribute("data-val", this.v);
+      this.span.innerHTML = this.v;
       return this.v;
     };
     this.move = function(m) {
@@ -33,7 +36,7 @@ GameTemplate = function(opts) {
     };
     this.moveX = function(nx) {
       this.x = nx;
-      this.$el.css({'left':nx*this.w+'%'});
+      this.el.style.left = nx*this.w+'%';
       return this;
     };
     this.getY = function() {
@@ -41,14 +44,14 @@ GameTemplate = function(opts) {
     };
     this.moveY = function(ny) {
       this.y = ny;
-      this.$el.css({'top':ny*this.w+'%'});
+      this.el.style.top = ny*this.w+'%';
       return this;
     };
     this.destroy = function() {
       var self = this;
-      self.$el.addClass('destroying');
+      self.el.className = "destroying";
       setTimeout(function() {
-        self.$el.remove();
+        self.el.parentElement.removeChild(self.el);
       },250);
     };
     this.initialize(opts);
@@ -137,12 +140,10 @@ GameTemplate = function(opts) {
     },
     componentDidMount: opts.componentDidMount || function() {
       document.addEventListener('keydown', this.keyAction);
-      this.$el = $('.'+this.t+'-game .board');
+      this.el = document.getElementsByClassName(this.t+'-game')[0].getElementsByClassName('board')[0];
       swipe.on(document.getElementsByClassName(this.t+'-game')[0].getElementsByClassName("board")[0], {
         left: this.left,
-        right: this.right,
-        up: this.down,
-        down: this.up
+        right: this.cw
       });
 
       this.renderGame();
@@ -176,7 +177,7 @@ GameTemplate = function(opts) {
           opts.z = this.newZ(this.values,n);
           this.move++;
           this.t != "clear" && this.t != "combine" && this.updateScore(opts.z);
-          this.b[opts.x][opts.y] = new PieceView(opts);
+          this.b[opts.x][opts.y] = this.makeNewPiece(opts);
           this.afterCreatePiece(opts,n);
         }
         if(spaces.length === 1) {
@@ -197,9 +198,7 @@ GameTemplate = function(opts) {
           });
           if(!alive) {
             this.moving = true;
-            var $p = self.$el.parent();
-            $p.find('.game-over-menu h1').html(this.getGameOverMessage());
-            $p.addClass('game-over');
+            this.getGameOverMessage();
           }
         }
         if(n) {
@@ -251,7 +250,10 @@ GameTemplate = function(opts) {
     },
     boardCleared: opts.boardCleared || function() {},
     getGameOverMessage: opts.getGameOverMessage || function() {
-      return "You scored "+Session.get(this.t+'-score')+"!";
+      this.setState({
+        gameOverMessage: "You scored "+Session.get(this.t+'-score')+"!",
+        extraClass: "game-over"
+      });
     },
     setNewHigh: opts.setNewHigh || function(resetBoard) {
       var self = this;
@@ -300,25 +302,34 @@ GameTemplate = function(opts) {
       }
     },
     clickReset() {
-      this.$el.parent().addClass('reset-open');
+      this.setState({
+        extraClass: "reset-open"
+      });
     },
     clickResetOption(e) {
       if(e.target.tagName === "LI") {
         this.setNewHigh(e.target.className.indexOf('yes') > -1,this.b);
-        this.$el.parent().removeClass('reset-open');
+        this.setState({
+          extraClass: ""
+        });
       }
     },
     clickGameOverOption(e) {
       if(e.target.tagName === "LI") {
         this.setNewHigh(e.target.className.indexOf('yes') > -1,this.b);
-        this.$el.parent().removeClass('game-over');
+        this.setState({
+          extraClass: ""
+        });
         if(e.target.className.indexOf('no') > -1) document.getElementById('body').className = "";
       }
     },
     highCopy: opts.highCopy || "high",
+    getInitialState() {
+      return {};
+    },
     render() {
       return (
-        <div className={this.t+"-game game"}>
+        <div className={this.t+"-game game " + this.state.extraClass}>
           <div className="menu">
             <span className="options" data-target=" ">
               <span></span>
@@ -353,7 +364,7 @@ GameTemplate = function(opts) {
             </ul>
           </div>
           <div className="game-over-menu">
-            <h1></h1>
+            <h1>{this.state.gameOverMessage}</h1>
             <h2>
               Play Again?
             </h2>
