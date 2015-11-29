@@ -149,7 +149,7 @@ GameTemplate = function(opts) {
       this.renderGame();
     },
     keyAction: opts.keyAction || function(e) {
-      if(document.getElementById('body').className.indexOf(this.t) > -1) {
+      if(document.getElementsByTagName('body')[0].className.indexOf(this.t) > -1) {
         var code = e.keyCode || e.which;
         if(code === 37) this.left();
         else if(code === 38) this.up();
@@ -320,7 +320,7 @@ GameTemplate = function(opts) {
         this.setState({
           extraClass: ""
         });
-        if(e.target.className.indexOf('no') > -1) document.getElementById('body').className = "";
+        if(e.target.className.indexOf('no') > -1) document.getElementsByTagName('body')[0].className = "";
       }
     },
     highCopy: opts.highCopy || "high",

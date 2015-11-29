@@ -37,39 +37,32 @@ var opts = {
 			}
 		},
 		spinBoard: function() {
-			this.$el.css({
-				'-webkit-transform' : 'rotate('+ this.degrees +'deg)',
-				'-moz-transform' : 'rotate('+ this.degrees +'deg)',
-				'-ms-transform' : 'rotate('+ this.degrees +'deg)',
-				'transform' : 'rotate('+ this.degrees +'deg)'
-			});
+			this.el.style.webkitTransform = this.el.style.MozTransform = this.el.style.msTransform = this.el.style.transform = 'rotate('+ this.degrees +'deg)';
 		},
 		spinPieces: function() {
-			this.$el.find('>div span').css({
-				'-webkit-transform' : 'translateX(-50%) translateY(-50%) rotate('+ -this.degrees +'deg)',
-				'-moz-transform' : 'translateX(-50%) translateY(-50%) rotate('+ -this.degrees +'deg)',
-				'-ms-transform' : 'translateX(-50%) translateY(-50%) rotate('+ -this.degrees +'deg)',
-				'transform' : 'translateX(-50%) translateY(-50%) rotate('+ -this.degrees +'deg)'
-			});
+			for(var i in this.b) {
+				for(var j in this.b[i]) {
+					var b;
+					if(b = this.b[i][j]) {
+						b.span.style.webkitTransform = b.span.style.MozTransform = b.span.style.msTransform = b.span.style.transform = 'translateX(-50%) translateY(-50%) rotate('+ -this.degrees +'deg)';
+					}
+				}
+			}
 		}
 	},
-	afterCreatePiece: function() {
-		var self = this;
-		self.$el.find('>div span').css({
-			'-webkit-transform' : 'translateX(-50%) translateY(-50%) rotate('+ -this.degrees +'deg)',
-			'-moz-transform' : 'translateX(-50%) translateY(-50%) rotate('+ -this.degrees +'deg)',
-			'-ms-transform' : 'translateX(-50%) translateY(-50%) rotate('+ -this.degrees +'deg)',
-			'transform' : 'translateX(-50%) translateY(-50%) rotate('+ -this.degrees +'deg)'
-		});
+	afterCreatePiece: function(opts) {
+		var self = this, b;
+		if(b = this.b[opts.x][opts.y]) {
+			b.span.style.webkitTransform = b.span.style.MozTransform = b.span.style.msTransform = b.span.style.transform = 'translateX(-50%) translateY(-50%) rotate('+ -this.degrees +'deg)';
+		}
 		setTimeout(function() {
 			self.fall(0);
 			self.fall(0);
-		}, 100);
+		}, 1);
 	},
   componentDidMount: function() {
     document.addEventListener('keydown', this.keyAction);
     this.el = document.getElementsByClassName(this.t+'-game')[0].getElementsByClassName('board')[0];
-    this.$el = $(this.el);
     swipe.on(document.getElementsByClassName(this.t+'-game')[0].getElementsByClassName("board")[0], {
       left: this.ccw,
       right: this.cw
@@ -78,7 +71,7 @@ var opts = {
     this.renderGame();
   },
 	keyAction: function(e) {
-		if(document.getElementById('body').className.indexOf('twist') > -1) {
+		if(document.getElementsByTagName('body')[0].className.indexOf('twist') > -1) {
 			var code = e.keyCode || e.which;
 			if(code === 37) this.ccw();
 			else if(code === 39) this.cw();

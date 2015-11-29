@@ -14,7 +14,7 @@ HighScoreTemplate = function(opts) {
       }
     },
     keyAction(e) {
-      if(document.getElementById('body').className.indexOf(this.state.t+'-high') > -1) {
+      if(document.getElementsByTagName('body')[0].className.indexOf(this.state.t+'-high') > -1) {
         var code = e.keyCode || e.which;
         if(code === 37) this.left();
         else if(code === 39) this.right();
