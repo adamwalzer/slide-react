@@ -63,7 +63,10 @@ var opts = {
 		return spaces;
 	},
 	getGameOverMessage: function() {
-		return "You couldn't clear the board";
+		this.setState({
+      gameOverMessage: "You couldn't clear the board",
+      extraClass: "game-over"
+    });
 	},
 	boardCleared: function() {
   	this.gameOver = true;
@@ -77,9 +80,10 @@ var opts = {
 			sort: 1
 		});
 
-		var $p = this.$el.parent();
-		$p.find('.game-over-menu h1').html("You scored " + Session.get('clear-score') + "!");
-		$p.addClass('game-over');
+		this.setState({
+      gameOverMessage: "You scored " + Session.get('clear-score') + "!",
+      extraClass: "game-over"
+    });
   },
   combineVal: function() {
   	return " ";

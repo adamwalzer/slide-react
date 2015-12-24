@@ -1,4 +1,3 @@
-// Welcome component - represents the whole app
 Welcome = React.createClass({
   render() {
     return (

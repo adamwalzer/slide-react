@@ -51,7 +51,7 @@ GameTemplate = function(opts) {
       var self = this;
       self.el.className = "destroying";
       setTimeout(function() {
-        self.el.parentElement.removeChild(self.el);
+        self.el.parentElement && self.el.parentElement.removeChild(self.el);
       },250);
     };
     this.initialize(opts);
@@ -143,7 +143,9 @@ GameTemplate = function(opts) {
       this.el = document.getElementsByClassName(this.t+'-game')[0].getElementsByClassName('board')[0];
       swipe.on(document.getElementsByClassName(this.t+'-game')[0].getElementsByClassName("board")[0], {
         left: this.left,
-        right: this.cw
+        right: this.right,
+        up: this.up,
+        down: this.down
       });
 
       this.renderGame();
@@ -332,9 +334,9 @@ GameTemplate = function(opts) {
         <div className={this.t+"-game game " + this.state.extraClass}>
           <div className="menu">
             <span className="options" data-target=" ">
-              <span></span>
-              <span></span>
-              <span></span>
+              <span data-target=" "></span>
+              <span data-target=" "></span>
+              <span data-target=" "></span>
             </span>
             <span className="reset" onClick={this.clickReset}></span>
           </div>

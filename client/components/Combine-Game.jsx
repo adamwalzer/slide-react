@@ -18,9 +18,7 @@ var opts = {
 		this.moving = false;
 		if(this.mx>=13) {
 			this.moving = true;
-			var $p = this.$el.parent();
-			$p.find('.game-over-menu h1').html("You scored "+Session.get('combine-score')+"!");
-			$p.addClass('game-over');
+			this.getGameOverMessage();
 		}
 	},
 	split: function(spaces) {

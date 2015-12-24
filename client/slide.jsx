@@ -13,6 +13,10 @@ Meteor.autorun(function() {
       document.body.className = "options";
     }
   };
+
+  document.ontouchstart = document.ontouchmove =function(e){ 
+      e.preventDefault(); 
+  };
 });
 
 Meteor.startup(function () {

@@ -15,7 +15,7 @@ swipe = {
     function handleTouchMove(e) {
       if ( !xDown || !yDown ) {
         return;
-      }
+      }x
 
       var xUp = e.touches[0].clientX;
       var yUp = e.touches[0].clientY;
@@ -31,9 +31,9 @@ swipe = {
         }
       } else {
         if ( yDiff > 0 ) {
-          down();
-        } else { 
           up();
+        } else { 
+          down();
         }
       }
       /* reset values */
