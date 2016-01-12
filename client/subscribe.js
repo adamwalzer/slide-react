@@ -1,1 +1,1 @@
-Meteor.subscribe("high-scores");
+Meteor.subscribe("HighScores");
